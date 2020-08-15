@@ -119,18 +119,21 @@ class FootballEnvCore(object):
     self._config.NewScenario(inc=inc)
     if self._env.state == GameState.game_created:
       self._env.start_game()
+<<<<<<< HEAD
+=======
     game_config = self.position_restarts(self._config)
-    # self._env.reset(game_config, animations)
+    self._env.reset(game_config, animations)
+>>>>>>> 6c14e81... 1. Added Clang as C++ compiler to Dockerfile for faster compilation.
     self._env.state = GameState.game_running
     scenario_config = self._config.ScenarioConfig()
     assert (
-        not game_config.dynamic_player_selection or
-        not game_config.control_all_players
+        not scenario_config.dynamic_player_selection or
+        not scenario_config.control_all_players
     ), ('For this scenario you need to control either 0 or all players on the '
         'team ({} for left team, {} for right team).').format(
-            game_config.controllable_left_players,
-            game_config.controllable_right_players)
-    self._env.reset(game_config, animations)
+            scenario_config.controllable_left_players,
+            scenario_config.controllable_right_players)
+    self._env.reset(scenario_config, animations)
 
   def reset(self, inc=1):
     """Reset environment for a new episode using a given config."""

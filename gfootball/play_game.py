@@ -36,7 +36,7 @@ flags.DEFINE_string('level', '', 'Level to play')
 flags.DEFINE_enum('action_set', 'default', ['default', 'full'], 'Action set')
 flags.DEFINE_bool('real_time', True,
                   'If true, environment will slow down so humans can play.')
-flags.DEFINE_bool('render', True, 'Whether to do game rendering.')
+flags.DEFINE_bool('render', False, 'Whether to do game rendering.')
 
 
 def main(_):
