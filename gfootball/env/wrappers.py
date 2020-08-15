@@ -76,7 +76,7 @@ class PeriodicDumpWriter(gym.Wrapper):
   def step(self, action):
     return self.env.step(action)
 
-  def reset(self):
+  def reset(self, **kwargs):
     if (self._dump_frequency > 0 and
         (self._current_episode_number % self._dump_frequency == 0)):
       self.env._config.update(self._original_dump_config)
@@ -87,7 +87,7 @@ class PeriodicDumpWriter(gym.Wrapper):
                                'dump_scores': False})
     self.env.disable_render()
     self._current_episode_number += 1
-    return self.env.reset()
+    return self.env.reset(**kwargs)
 
 
 class Simple115StateWrapper(gym.ObservationWrapper):
@@ -354,9 +354,9 @@ class CheckpointRewardWrapper(gym.RewardWrapper):
     self._num_checkpoints = 10
     self._checkpoint_reward = 0.1
 
-  def reset(self):
+  def reset(self, **kwargs):
     self._collected_checkpoints = {}
-    return self.env.reset()
+    return self.env.reset(**kwargs)
 
   def get_state(self, to_pickle):
     to_pickle['CheckpointRewardWrapper'] = self._collected_checkpoints
@@ -422,8 +422,8 @@ class FrameStack(gym.Wrapper):
     self.observation_space = gym.spaces.Box(
         low=low, high=high, dtype=env.observation_space.dtype)
 
-  def reset(self):
-    observation = self.env.reset()
+  def reset(self, **kwargs):
+    observation = self.env.reset(**kwargs)
     self.obs.extend([observation] * self.obs.maxlen)
     return self._get_observation()
 
@@ -474,8 +474,8 @@ class MultiAgentToSingleAgent(gym.Wrapper):
     else:
       self.action_space = gym.spaces.Discrete(env._num_actions)
 
-  def reset(self):
-    self._observation = self.env.reset()
+  def reset(self, **kwargs):
+    self._observation = self.env.reset(**kwargs)
     return self._get_observation()
 
   def step(self, action):
